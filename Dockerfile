@@ -11,8 +11,8 @@ WORKDIR /MERN
 
 RUN cd /MERN/mern-api 
 RUN npm install
-RUN ["npm","start"]
+CMD ["npm","start"]
 
 RUN cd /MERN/mern-blog
 RUN npm install
-RUN ["npm","start"]
+CMD ["npm","start"]
