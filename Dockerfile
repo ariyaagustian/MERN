@@ -2,5 +2,6 @@
 FROM node:current
 
 # install app dependencies
+RUN npm install
 
-# # set working directory
+CMD [ "npm", "start"]
