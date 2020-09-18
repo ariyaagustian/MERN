@@ -1,0 +1,126 @@
+* Standard API
+{root.api}/{version}/{grouping}/{endpoint}
+sample:
+http://mern-api.codevibes.com/v1/auth/login
+
+* Standard Status Response
+200 - OK                        --> call api Success
+201 - CREATED                   --> POST Success
+400 - BAD REQUEST               --> Error on client side
+401 - UNAUTHORIZED              --> User not authorized to the request
+403 - FORBIDDEN                 --> User not allowed to access
+404 - NOT FOUND                 --> Request endpoint not found
+500 - INTERNAL SERVER ERROR     --> Error on server side
+502 - BAD GATEWAY               --> Invalid response from another request
+
+
+
+Group : Authentication
+[1] - Register
+{root.api}/{version}/auth/register
+    request :
+    {
+        "name":"testing",
+        "email":"testing@email.com",
+        "password":"password123",
+    }
+    response :
+    {
+        "message":"Register Success",
+        "data":{
+            "id":1,
+            "name":"testing",
+            "email":"testing@email.com",
+            "password":"password123",
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
+
+
+
+[2] - Login
+{root.api}/{version}/auth/login
+    request :
+    {
+        "email":"testing@email.com",
+        "password":"password123",
+    }
+    response :
+    {
+        "message":"Login Success",
+        "data":{
+            "id":1,
+            "name":"testing",
+            "email":"testing@email.com",
+            "token": "Xkjadsfnlakergnj.asdhjnadf.asdkjnadsnadf;lasdjk"
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
+
+
+Group : Blog
+[1] - Create Blog Post
+{root.api}/{version}/blog/
+    request :
+    {
+        ?params
+    }
+    response :
+    {
+        "message":"Create Blog Post Success",
+        "data":{
+            ?params
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
+
+[2] - Get Blog Post
+{root.api}/{version}/blog/
+    request :
+    {
+        ?params
+    }
+    response :
+    {
+        "message":"Get Data Blog Post Success",
+        "data":{
+            ?params
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
+    
+[3] - Update Blog Post
+{root.api}/{version}/blog/{idBlog}
+    request :
+    {
+        ?params
+    }
+    response :
+    {
+        "message":"Update Data Blog Post Success",
+        "data":{
+            ?params
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
+
+[4] - Delete Blog Post
+{root.api}/{version}/blog/{idBlog}
+    request :
+    {
+        ?params
+    }
+    response :
+    {
+        "message":"Delete Data Blog Post Success",
+        "data":{
+            ?params
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
