@@ -3,6 +3,8 @@
 sample:
 http://mern-api.codevibes.com/v1/auth/login
 
+============================================================================================
+
 * Standard Status Response
 200 - OK                        --> call api Success
 201 - CREATED                   --> POST Success
@@ -13,7 +15,7 @@ http://mern-api.codevibes.com/v1/auth/login
 500 - INTERNAL SERVER ERROR     --> Error on server side
 502 - BAD GATEWAY               --> Invalid response from another request
 
-
+============================================================================================
 
 Group : Authentication
 [1] - Register
@@ -62,7 +64,7 @@ Group : Authentication
 
 Group : Blog
 [1] - Create Blog Post
-{root.api}/{version}/blog/
+{root.api}/{version}/blog/post
     request :
     {
         ?params
@@ -78,7 +80,7 @@ Group : Blog
     400 -> input yang anda masukan tidak valid
 
 [2] - Get Blog Post
-{root.api}/{version}/blog/
+{root.api}/{version}/blog/posts
     request :
     {
         ?params
@@ -94,7 +96,7 @@ Group : Blog
     400 -> input yang anda masukan tidak valid
     
 [3] - Update Blog Post
-{root.api}/{version}/blog/{idBlog}
+{root.api}/{version}/blog/post/{idPost}
     request :
     {
         ?params
@@ -110,7 +112,7 @@ Group : Blog
     400 -> input yang anda masukan tidak valid
 
 [4] - Delete Blog Post
-{root.api}/{version}/blog/{idBlog}
+{root.api}/{version}/blog/post/{idPost}
     request :
     {
         ?params
@@ -118,6 +120,21 @@ Group : Blog
     response :
     {
         "message":"Delete Data Blog Post Success",
+        "data":{
+            ?params
+        }
+    }
+    err-response :
+    400 -> input yang anda masukan tidak valid
+[2] - Get Blog Post by Id
+{root.api}/{version}/blog/posts/{idPost}
+    request :
+    {
+        ?params
+    }
+    response :
+    {
+        "message":"Get Data Blog Post Success",
         "data":{
             ?params
         }

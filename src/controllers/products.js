@@ -1,7 +1,7 @@
 exports.createProduct = (req, res, next) => {
     const name = req.body.name;
     const price = req.body.price;
-    res.json(
+    res.status(201).json(
         {
             message: "Create Product Success!",
             data: {
@@ -15,7 +15,7 @@ exports.createProduct = (req, res, next) => {
 }
 
 exports.getAllProducts = (req, res, next) => {
-    res.json(
+    res.status(200).json(
         {
             message: "Get All Product Success",
             data: [
