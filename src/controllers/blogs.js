@@ -1,22 +1,34 @@
+const e = require('express');
+const {validationResult} = require('express-validator');
+
 exports.createPost = (req, res, next) => {
     const title = req.body.title;
     const body = req.body.body;
     const image = req.body.image;
-    const result = {
-        message: "Create Post Success!",
-        data: {
-            id: 1,
-            title: title,
-            image: image,
-            body: body,
-            created_at:"12/06/2020",
-            author : {
-                uid : 1,
-                name : "Ariya"
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        const err = new Error('Input Value Tidak Sesuai');
+        err.errorStatus = 400;
+        err.data = errors.array();
+        throw err;
+    } else {
+        const result = {
+            message: "Create Post Success!",
+            data: {
+                id: 1,
+                title: title,
+                image: image,
+                body: body,
+                created_at:"12/06/2020",
+                author : {
+                    uid : 1,
+                    name : "Ariya"
+                }
             }
         }
+        res.status(201).json(result);
     }
-    res.status(201).json(result);
 }
 
 exports.getAllPosts = (req, res, next) => {
