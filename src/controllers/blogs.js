@@ -1,5 +1,5 @@
-const e = require('express');
 const {validationResult} = require('express-validator');
+const BlogPost = require('../models/blogs');
 
 exports.createPost = (req, res, next) => {
     const title = req.body.title;
@@ -13,21 +13,22 @@ exports.createPost = (req, res, next) => {
         err.data = errors.array();
         throw err;
     } else {
-        const result = {
-            message: "Create Post Success!",
-            data: {
-                id: 1,
-                title: title,
-                image: image,
-                body: body,
-                created_at:"12/06/2020",
-                author : {
-                    uid : 1,
-                    name : "Ariya"
-                }
-            }
-        }
-        res.status(201).json(result);
+        const Posting = new BlogPost({
+            title: title,
+            body: body,
+            author: {uid: 1, name: "Ariya Agustian"}
+        });
+
+        Posting.save()
+        .then(result => {
+            res.status(201).json({
+                message : "Create Blog Post Success",
+                data : result
+            });
+        })
+        .catch(err =>  {
+            console.log('err : ', err);
+        });        
     }
 }
 

@@ -25,7 +25,7 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message, data: data })
 })
 
-mongoose.connect('mongodb+srv://ariyaagustian:sarafgagap@cluster-1.14ed2.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://ariyaagustian:sarafgagap@cluster-1.14ed2.gcp.mongodb.net/blog?retryWrites=true&w=majority')
     .then(() => {
         app.listen(4000, () => console.log('Connection Success'));
     })
