@@ -6,8 +6,10 @@ const BlogPost = new Schema({
         type: String,
         required: true,
     },
-    // image: {
-    // },
+    image: {
+        type: String,
+        required: true,
+    },
     body : {
         type : String, 
         required : true,
