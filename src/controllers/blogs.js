@@ -88,16 +88,22 @@ exports.updatePost = (req, res, next) => {
 }
 
 exports.getPostById = (req, res, next) => {
-    const title = req.body.title;
-    const body = req.body.body;
     const id = req.params.id;
-    const result = {
-        message: "Get Post by Id Success!",
-        data: {
-            id: id,
-            title: "Title 1",
-            body: "Body 1"
+    BlogPost.findById(id)
+    .then(result => {
+        if(!result){
+            const error = new Error('Post tidak ditemukan');
+            error.errorStatus = 404;
+            throw error;
+        } else {
+            res.status(200).json({
+                message: 'Post berhasil ditemukan',
+                data : result
+            });
+
         }
-    }
-    res.status(201).json(result);
+    })
+    .catch(err => {
+        next(err);
+    })
 }
