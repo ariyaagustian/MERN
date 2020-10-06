@@ -14,7 +14,12 @@ router.post('/post',
 router.get('/posts', blogsController.getAllPosts);
 router.get('/post/:id', blogsController.getPostById);
 router.delete('/post/:id', blogsController.deletePost);
-router.put('/post/:id', blogsController.updatePost);
+router.put('/post/:id', 
+        [    
+            body('title').isLength({min: 5}).withMessage('Input Title Minimal 5 Karakter'),
+            body('body').isLength({min:5}).withMessage('Input Title Minimal 5 Karakter')  
+        ],
+    blogsController.updatePost);
 
 
 

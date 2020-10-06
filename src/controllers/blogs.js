@@ -2,8 +2,6 @@ const { validationResult } = require('express-validator');
 const BlogPost = require('../models/blogs');
 
 exports.createPost = (req, res, next) => {
-
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const err = new Error('Input Value Tidak Sesuai');
@@ -73,18 +71,52 @@ exports.deletePost = (req, res, next) => {
 }
 
 exports.updatePost = (req, res, next) => {
-    const title = req.body.title;
-    const body = req.body.body;
-    const id = req.params.id;
-    const result = {
-        message: "Update Post Success!",
-        data: {
-            id: id,
-            title: title,
-            body: body
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const err = new Error('Input Value Tidak Sesuai');
+        err.errorStatus = 400;
+        err.data = errors.array();
+        throw err;
+    } else {
+
+        if (!req.file) {
+            const err = new Error('Image Harus Di Upload');
+            err.errorStatus = 422;
+            err.data = errors.array();
+            throw err;
         }
+
+        const title = req.body.title;
+        const body = req.body.body;
+        const image = req.file.path;
+
+        const id = req.params.id;
+        BlogPost.findById(id)
+        .then(post => {
+            if(!post){
+                const err = new Error('Post tidak ditemukan');
+                err.errorStatus = 404;
+                throw err;
+            }
+            post.title = title;
+            post.body = body;
+            post.image = image;
+
+            return post.save();
+
+        })
+        .then(result => {
+            res.status(200).json({
+                message: 'Update Sukses',
+                data: result
+            })
+        })
+        .catch(err => {
+            next(err);
+        });
+
+
     }
-    res.status(201).json(result);
 }
 
 exports.getPostById = (req, res, next) => {
