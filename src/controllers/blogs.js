@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
 const BlogPost = require('../models/blogs');
+const path = require('path');
+const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
     const errors = validationResult(req);
@@ -55,19 +57,28 @@ exports.getAllPosts = (req, res, next) => {
 }
 
 exports.deletePost = (req, res, next) => {
-    const title = req.body.title;
-    const body = req.body.body;
     const id = req.params.id;
 
-    const result = {
-        message: "Delete Post Success!",
-        data: {
-            id: id,
-            title: "Eiusmod consectetur consectetur sunt amet sunt eiusmod laboris qui anim excepteur.",
-            body: "Eu et est cupidatat anim velit consequat fugiat cillum aliquip elit ad quis aute sint. Reprehenderit cillum occaecat excepteur nostrud laborum consectetur incididunt magna velit. Quis culpa voluptate ex incididunt."
+    BlogPost.findById(id)
+    .then(post => {
+        if(!post){
+            const error = new Error('Post tidak ditemukan');
+            error.errorStatus = 404;
+            throw error;
         }
-    }
-    res.status(201).json(result);
+        removeImage(post.image);
+        return BlogPost.findByIdAndRemove(id);
+    })
+    .then(result => {
+        res.status(200).json({
+            message: 'Hapus post berhasil',
+            data : result
+        });
+    })
+    .catch(err => {
+        next(err);
+    })
+   
 }
 
 exports.updatePost = (req, res, next) => {
@@ -138,4 +149,9 @@ exports.getPostById = (req, res, next) => {
     .catch(err => {
         next(err);
     })
+}
+
+const removeImage = (filePath) => {
+    filePath = path.join(__dirname, '../..',filePath);
+    fs.unlink(filePath, err => console.log(err));
 }
